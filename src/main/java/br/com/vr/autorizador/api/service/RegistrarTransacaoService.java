@@ -32,46 +32,29 @@ public class RegistrarTransacaoService {
 
         var cartaoEntity = Optional.ofNullable(cartaoRepository.findByNumero(body.getNumeroCartao())).orElseThrow(()-> new CartaoNaoExisteException());
 
-        registrarBloqueioSaldo(cartaoEntity, body.getValor(), false);
+        Optional.ofNullable(cartaoEntity.getSenha().equals(body.getSenha()) ? "OK" : null).orElseThrow(() -> new SenhaInvalidaException());
 
-        try {
-            Optional.ofNullable(cartaoEntity.getSenha().equals(body.getSenha()) ? "OK" : null).orElseThrow(() -> new SenhaInvalidaException());
+        var saldoAtual = cartaoEntity.getSaldo().subtract(body.getValor());
 
-            var saldoAtual = cartaoEntity.getSaldo().subtract(cartaoEntity.getSaldoBloqueado());
+        Optional.ofNullable(saldoAtual.compareTo(BigDecimal.ZERO) >= 0 ? "OK" : null).orElseThrow(() -> new SaldoInsuficienteException());
 
-            Optional.ofNullable(saldoAtual.compareTo(BigDecimal.ZERO) >= 0 ? "OK" : null).orElseThrow(() -> new SaldoInsuficienteException());
-
-            registrarSaldo(cartaoEntity, body.getValor());
-
-        } catch (SenhaInvalidaException ex) {
-            registrarBloqueioSaldo(cartaoEntity, body.getValor(), true);
-            throw new SenhaInvalidaException();
-        } catch (SaldoInsuficienteException ex) {
-            registrarBloqueioSaldo(cartaoEntity, body.getValor(), true);
-            throw new SaldoInsuficienteException();
-        }
+        registrarSaldo(cartaoEntity, body.getValor());
 
         log.debug("END registrar.");
 
         return "OK";
     }
 
-    private void registrarBloqueioSaldo(final CartaoEntity cartaoEntity, final BigDecimal valor, final boolean desbloquear){
-        log.debug("BEGIN registrarBloqueioSaldo: numeroCartao={} | valor={}", cartaoEntity.getNumero(), valor);
-
-        var saldoBloqueado = desbloquear ? cartaoEntity.getSaldoBloqueado().subtract(valor) : cartaoEntity.getSaldoBloqueado().add(valor);
-
-        cartaoEntity.setSaldoBloqueado(saldoBloqueado);
-        cartaoEntity.setDataAlteracao(LocalDateTime.now());
-        cartaoRepository.saveAndFlush(cartaoEntity);
-
-        log.debug("END registrarBloqueioSaldo.");
-    }
-
+    /**
+     * @param: cartaoEntity - Entidade do cartao a ser atualizada
+     * @param: valor - Valor a ser debitado do cartão
+     * @since 2023-01-28
+     * <p>
+     * Atualiza o saldo do cartão
+     */
     private void registrarSaldo(final CartaoEntity cartaoEntity, final BigDecimal valor){
         log.debug("BEGIN registrarSaldo: numeroCartao={}", cartaoEntity.getNumero());
 
-        cartaoEntity.setSaldoBloqueado(cartaoEntity.getSaldoBloqueado().subtract(valor));
         cartaoEntity.setDataAlteracao(LocalDateTime.now());
         cartaoEntity.setSaldo(cartaoEntity.getSaldo().subtract(valor));
         cartaoRepository.saveAndFlush(cartaoEntity);

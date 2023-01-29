@@ -37,6 +37,8 @@ public class TransacoesController {
     @Autowired
     private RegistrarTransacaoService registrarTransacaoService;
 
+    private BigDecimal teste = BigDecimal.ZERO;
+
     @Operation(summary = "Registrar uma nova transação", responses = {
             @ApiResponse(description = "Transação registrada com sucesso", responseCode = "201", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "400", description = "Falha ao registrar a transação", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
@@ -48,8 +50,8 @@ public class TransacoesController {
         log.debug("BEGIN registrarTransacao: numeroCartao={}", body.getNumeroCartao());
 
         var response = this.registrarTransacaoService.registrar(body);
-
-        log.debug("END registrarTransacao: response={}", response);
+        teste = teste.add(body.getValor());
+        log.debug("END registrarTransacao: response={} | total={}", response, teste);
 
         return new ResponseEntity<String>(response, HttpStatus.CREATED);
     }

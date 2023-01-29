@@ -29,8 +29,6 @@ public class CadastrarCartaoService {
     public CartaoVo novo(final CartaoVo body) {
         log.debug("BEGIN novo: numeroCartao={}", body.getNumeroCartao());
 
-        var teste = cartaoRepository.findByNumero(body.getNumeroCartao());
-
         Optional.ofNullable(cartaoRepository.findByNumero(body.getNumeroCartao())).ifPresent(e -> {
             throw new CartaoJaExisteException();
         });

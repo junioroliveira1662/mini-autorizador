@@ -32,7 +32,7 @@ public class SaldoCartaoService {
 
         log.debug("END consultar.");
 
-        return entity.getSaldo().subtract(entity.getSaldoBloqueado()).setScale(2, RoundingMode.HALF_UP);
+        return entity.getSaldo();
     }
 
 }

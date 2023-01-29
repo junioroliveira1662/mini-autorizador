@@ -26,7 +26,4 @@ public class CartaoEntity extends BaseEntity {
 	@Column(name = "SALDO", precision = 19, scale = 2, nullable = false)
 	private BigDecimal saldo = new BigDecimal(500);
 
-	@Column(name = "SALDO_BLOQUEADO", precision = 19, scale = 2, nullable = false)
-	private BigDecimal saldoBloqueado = BigDecimal.ZERO;
-
 }
