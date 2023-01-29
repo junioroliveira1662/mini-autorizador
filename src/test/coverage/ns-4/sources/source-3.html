@@ -1,0 +1,190 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ControllerExceptionHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.vr.autorizador.api.core.handler</a>
+</div>
+
+<h1>Coverage Summary for Class: ControllerExceptionHandler (br.com.vr.autorizador.api.core.handler)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ControllerExceptionHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.vr.autorizador.api.core.handler;
+&nbsp;
+&nbsp;import br.com.vr.autorizador.api.core.exception.CartaoNaoExisteException;
+&nbsp;import br.com.vr.autorizador.api.core.exception.SaldoInsuficienteException;
+&nbsp;import br.com.vr.autorizador.api.core.exception.SenhaInvalidaException;
+&nbsp;import lombok.extern.log4j.Log4j2;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.validation.BindException;
+&nbsp;import org.springframework.web.bind.MethodArgumentNotValidException;
+&nbsp;import org.springframework.web.bind.annotation.ExceptionHandler;
+&nbsp;import org.springframework.web.bind.annotation.ResponseBody;
+&nbsp;import org.springframework.web.bind.annotation.ResponseStatus;
+&nbsp;import org.springframework.web.bind.annotation.RestControllerAdvice;
+&nbsp;import org.webjars.NotFoundException;
+&nbsp;
+&nbsp;import javax.validation.ConstraintViolationException;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+<b class="nc">&nbsp;@Log4j2</b>
+&nbsp;@RestControllerAdvice
+<b class="nc">&nbsp;public class ControllerExceptionHandler {</b>
+&nbsp;
+&nbsp;	@ResponseBody
+&nbsp;	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+&nbsp;	@ExceptionHandler(BindException.class)
+&nbsp;	public ApiErrorResponse handleSpringBindException(final BindException ex) {
+<b class="nc">&nbsp;		log.error(&quot;handleSpringBindException: {}&quot;, ex.getMessage(), ex);</b>
+<b class="nc">&nbsp;		final List&lt;ApiErrorData&gt; errorsData = ex.getFieldErrors().stream().map(error -&gt; ApiErrorData.builder().field(error.getField()).type(&quot;Invalid Parameter&quot;).message(error.getDefaultMessage()).build()).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;		return new ApiErrorResponse(HttpStatus.BAD_REQUEST, errorsData, ex.getLocalizedMessage());</b>
+&nbsp;	}
+&nbsp;	@ResponseBody
+&nbsp;	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+&nbsp;	@ExceptionHandler(ConstraintViolationException.class)
+&nbsp;	public ApiErrorResponse handleConstraintViolationException(final ConstraintViolationException ex) {
+<b class="nc">&nbsp;		log.error(&quot;handleConstraintViolationException: {}&quot;, ex.getMessage(), ex);</b>
+<b class="nc">&nbsp;		return new ApiErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), ex.getLocalizedMessage());</b>
+&nbsp;	}
+&nbsp;	@ResponseBody
+&nbsp;	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+&nbsp;	@ExceptionHandler(MethodArgumentNotValidException.class)
+&nbsp;	public ApiErrorResponse handleMethodArgumentNotValid(final MethodArgumentNotValidException ex) {
+<b class="nc">&nbsp;		log.error(&quot;handleBadCredentialsException: {}&quot;, ex.getMessage(), ex);</b>
+<b class="nc">&nbsp;		final List&lt;ApiErrorData&gt; errorsData = ex.getBindingResult().getFieldErrors().stream().map(error -&gt; ApiErrorData.builder().field(error.getField()).type(&quot;Invalid Parameter&quot;).message(error.getDefaultMessage()).build()).collect(Collectors.toList());</b>
+<b class="nc">&nbsp;		return new ApiErrorResponse(HttpStatus.BAD_REQUEST, errorsData, ex.getLocalizedMessage());</b>
+&nbsp;	}
+&nbsp;	@ResponseBody
+&nbsp;	@ResponseStatus(code = HttpStatus.NOT_FOUND)
+&nbsp;	@ExceptionHandler(NotFoundException.class)
+&nbsp;	public ApiErrorResponse handleNotFoundException(final NotFoundException ex) {
+<b class="nc">&nbsp;		log.error(&quot;handleBadCredentialsException: {}&quot;, ex.getMessage(), ex);</b>
+<b class="nc">&nbsp;		return new ApiErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), ex.getLocalizedMessage());</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@ResponseBody
+&nbsp;	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+&nbsp;	@ExceptionHandler(CartaoNaoExisteException.class)
+&nbsp;	public ApiErrorResponse handleCartaoNaoExisteException(final CartaoNaoExisteException ex) {
+<b class="nc">&nbsp;		log.error(&quot;CartaoNaoExisteException: {}&quot;, ex.getMessage(), ex);</b>
+<b class="nc">&nbsp;		return new ApiErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, &quot;O número de cartão informado não existe.&quot;, null);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@ResponseBody
+&nbsp;	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+&nbsp;	@ExceptionHandler(SaldoInsuficienteException.class)
+&nbsp;	public ApiErrorResponse handleSaldoInsuficienteException(final SaldoInsuficienteException ex) {
+<b class="nc">&nbsp;		log.error(&quot;handleSaldoInsuficienteException: {}&quot;, ex.getMessage(), ex);</b>
+<b class="nc">&nbsp;		return new ApiErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, &quot;Saldo insuficiente para realizar a transação.&quot;, null);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@ResponseBody
+&nbsp;	@ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
+&nbsp;	@ExceptionHandler(SenhaInvalidaException.class)
+&nbsp;	public ApiErrorResponse handleSenhaInvalidaException(final SenhaInvalidaException ex) {
+<b class="nc">&nbsp;		log.error(&quot;handleSenhaInvalidaException: {}&quot;, ex.getMessage(), ex);</b>
+<b class="nc">&nbsp;		return new ApiErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, &quot;A senha do cartão está inválida.&quot;, null);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@ResponseBody
+&nbsp;	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+&nbsp;	@ExceptionHandler(Exception.class)
+&nbsp;	public ApiErrorResponse handleException(final Exception ex) {
+<b class="nc">&nbsp;		log.error(&quot;handleException: {}&quot;, ex.getMessage(), ex);</b>
+<b class="nc">&nbsp;		return new ApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, &quot;Ocorreu um erro inesperado, contate o administrador do sistema!&quot;, ex.getLocalizedMessage());</b>
+&nbsp;	}
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-01-28 22:48</div>
+</div>
+</body>
+</html>

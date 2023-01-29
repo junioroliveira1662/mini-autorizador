@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TransacaoVo</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.vr.autorizador.api.vo.transacoes</a>
+</div>
+
+<h1>Coverage Summary for Class: TransacaoVo (br.com.vr.autorizador.api.vo.transacoes)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TransacaoVo</td>
+<td class="coverageStat">
+  <span class="percent">
+    71,4%
+  </span>
+  <span class="absValue">
+    (5/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71,4%
+  </span>
+  <span class="absValue">
+    (5/7)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TransacaoVo$TransacaoVoBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.vr.autorizador.api.vo.transacoes;
+&nbsp;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import lombok.Builder;
+&nbsp;import lombok.Data;
+&nbsp;import lombok.NoArgsConstructor;
+&nbsp;
+&nbsp;import javax.validation.constraints.*;
+&nbsp;import java.math.BigDecimal;
+&nbsp;
+<b class="nc">&nbsp;@Data</b>
+<b class="fc">&nbsp;@Builder</b>
+<b class="fc">&nbsp;@AllArgsConstructor</b>
+<b class="nc">&nbsp;@NoArgsConstructor</b>
+&nbsp;public class TransacaoVo {
+&nbsp;
+&nbsp;	@Schema(description = &quot;Informe o número do cartão&quot;, defaultValue = &quot;6549873025634501&quot;)
+&nbsp;	@NotNull(message = &quot;{transacaoVo.numeroCartao.notnull}&quot;)
+&nbsp;	@NotEmpty(message = &quot;{transacaoVo.numeroCartao.notempty}&quot;)
+&nbsp;	@Size(message = &quot;{transacaoVo.numeroCartao.size}&quot;, min = 16, max = 16)
+<b class="fc">&nbsp;	private String numeroCartao;</b>
+&nbsp;
+&nbsp;	@Schema(description = &quot;Informe a senha do cartão&quot;, defaultValue = &quot;1234&quot;)
+&nbsp;	@NotNull(message = &quot;{transacaoVo.senha.notnull}&quot;)
+&nbsp;	@NotEmpty(message = &quot;{transacaoVo.senha.notempty}&quot;)
+&nbsp;	@Size(message = &quot;{transacaoVo.senha.size}&quot;, min = 4, max = 4)
+<b class="fc">&nbsp;	private String senha;</b>
+&nbsp;
+&nbsp;	@Schema(description = &quot;Informe o valor da transação&quot;, defaultValue = &quot;0.01&quot;)
+&nbsp;	@NotNull(message = &quot;{transacaoVo.valor.notnull}&quot;)
+&nbsp;	@DecimalMin(message = &quot;{transacaoVo.valor.min}&quot;, value = &quot;0.01&quot;)
+<b class="fc">&nbsp;	private BigDecimal valor;</b>
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-01-28 22:48</div>
+</div>
+</body>
+</html>

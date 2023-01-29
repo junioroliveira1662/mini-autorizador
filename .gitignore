@@ -1,0 +1,40 @@
+*/target/
+*/bin/
+*/log/
+/log/
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+.application-default.yml
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+*.log
+*.tmp
+*.gz
+*.DS_Store
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+*.
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/.metadata/
+/.DS_Store
+
+
+/${env.JBOSS_HOME}/

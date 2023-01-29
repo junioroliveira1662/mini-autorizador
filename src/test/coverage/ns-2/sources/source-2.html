@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TransacoesController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.vr.autorizador.api.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: TransacoesController (br.com.vr.autorizador.api.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TransacoesController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (2/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.vr.autorizador.api.controller;
+&nbsp;
+&nbsp;import br.com.vr.autorizador.api.core.exception.CartaoJaExisteException;
+&nbsp;import br.com.vr.autorizador.api.core.exception.CartaoNaoExisteException;
+&nbsp;import br.com.vr.autorizador.api.core.handler.ApiErrorResponse;
+&nbsp;import br.com.vr.autorizador.api.service.CadastrarCartaoService;
+&nbsp;import br.com.vr.autorizador.api.service.RegistrarTransacaoService;
+&nbsp;import br.com.vr.autorizador.api.service.SaldoCartaoService;
+&nbsp;import br.com.vr.autorizador.api.vo.cartoes.CartaoVo;
+&nbsp;import br.com.vr.autorizador.api.vo.transacoes.TransacaoVo;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.Parameter;
+&nbsp;import io.swagger.v3.oas.annotations.media.Content;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import lombok.extern.log4j.Log4j2;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.MediaType;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.validation.annotation.Validated;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import javax.validation.Valid;
+&nbsp;import javax.validation.constraints.NotEmpty;
+&nbsp;import javax.validation.constraints.NotNull;
+&nbsp;import javax.validation.constraints.Size;
+&nbsp;import java.math.BigDecimal;
+&nbsp;
+<b class="fc">&nbsp;@Log4j2</b>
+&nbsp;@Validated
+&nbsp;@CrossOrigin(origins = &quot;*&quot;)
+&nbsp;@RestController
+&nbsp;@RequestMapping(path = &quot;transacoes&quot;, produces = {MediaType.APPLICATION_JSON_VALUE})
+<b class="fc">&nbsp;public class TransacoesController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private RegistrarTransacaoService registrarTransacaoService;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Registrar uma nova transação&quot;, responses = {
+&nbsp;            @ApiResponse(description = &quot;Transação registrada com sucesso&quot;, responseCode = &quot;201&quot;, content = @Content(mediaType = &quot;application/json&quot;, schema = @Schema(implementation = String.class))),
+&nbsp;            @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Falha ao registrar a transação&quot;, content = @Content(mediaType = &quot;application/json&quot;, schema = @Schema(implementation = ApiErrorResponse.class))),
+&nbsp;            @ApiResponse(responseCode = &quot;422&quot;, description = &quot;Falha na regra de autorização&quot;, content = @Content(schema = @Schema(implementation = CartaoVo.class))),
+&nbsp;            @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Erro interno&quot;, content = @Content(mediaType = &quot;application/json&quot;, schema = @Schema(implementation = ApiErrorResponse.class)))
+&nbsp;    })
+&nbsp;    @PostMapping
+&nbsp;    public ResponseEntity&lt;String&gt; registrarTransacao(@RequestBody @Valid final TransacaoVo body) {
+<b class="nc">&nbsp;        log.debug(&quot;BEGIN registrarTransacao: numeroCartao={}&quot;, body.getNumeroCartao());</b>
+&nbsp;
+<b class="nc">&nbsp;        var response = this.registrarTransacaoService.registrar(body);</b>
+&nbsp;
+<b class="nc">&nbsp;        log.debug(&quot;END registrarTransacao: response={}&quot;, response);</b>
+&nbsp;
+<b class="nc">&nbsp;        return new ResponseEntity&lt;String&gt;(response, HttpStatus.CREATED);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-01-28 22:48</div>
+</div>
+</body>
+</html>

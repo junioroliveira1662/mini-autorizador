@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: '@project.name@'
+    version: '@project.version@'
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: user
+    password: password
+    url: jdbc:mysql://localhost:3306/miniautorizador?useTimezone=true&serverTimezone=UTC
+    database-platform: mysql
+  jpa:
+    show_sql: true
+    hibernate:
+      dialect: org.hibernate.dialect.MySQLDialect
+      ddl-auto: update # create-drop
+    defer-datasource-initialization: true
+  info:
+    build:
+      encoding: UTF-8
+
+
+server:
+  port: ${SERVER_PORT:8080}
+
+info:
+  app:
+    name: API Mini Autorizador VR
+    description: VR - API desenvolvida para realizar autorização de transações
+    version: '@project.version@'
+
+springdoc:
+  version: '@project.version@'
+  show-actuator: false
+  show-login-endpoint: false
+  swagger-ui:
+    path: '/swagger-ui.html'
+    disable-swagger-default-url: true
+    use-root-path: true
+
+#---------------- Logging ----------------------#
+logging:
+  file:
+    name: "./logs/${spring.application.name}.log"
+    max-history: ${LOGGIN_MAX_HISTORY_SIZE:10}
+  pattern:
+    file: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS,America/Sao_Paulo}){faint} %clr(%5p) %clr(${PID}){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"
+  level:
+    root: ${LOGGIN_LEVEL:ERROR}
+    org.springframework:
+      web: ${LOGGIN_LEVEL:ERROR}
+      jdbc.core: ${LOGGIN_LEVEL:TRACE}
+    com.howtodoinjava: ${LOGGIN_LEVEL:ERROR}
+    br.com.vr.autorizador.api: ${LOGGIN_LEVEL:DEBUG}
+    org.apache.http: ${LOGGIN_LEVEL:ERROR}
+    httpclient.wire: ${LOGGIN_LEVEL:ERROR}
+
