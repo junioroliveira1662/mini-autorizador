@@ -50,12 +50,12 @@ public class CartoesController {
                                             @Size(min = 16, max = 16, message = "{cartoesController.saldo.numeroCartao.size}")
                                             @Parameter(required = true, description = "Informe o número do cartão", example = "6549873025634501")
                                             @PathVariable final String numeroCartao) {
-        log.debug("BEGIN getOperations");
+        log.debug("BEGIN saldo");
 
         try {
             var response = this.saldoCartaoService.consultar(numeroCartao);
 
-            log.debug("END cadastrarNovoCartao: response: {}", response);
+            log.debug("END saldo: response: {}", response);
 
             return new ResponseEntity<BigDecimal>(response, HttpStatus.OK);
 

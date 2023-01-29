@@ -10,7 +10,14 @@ export const options = {
 };
 
 export default function () {
-    const res = http.get('http://localhost:8080/cartoes/6549873025634501');
-    check(res, { 'status was 200': (r) => r.status == 200 });
+
+    let data = { numeroCartao: '6549873025634501', senha: '1234', valor: 0.02 };
+
+    const res = http.post('http://localhost:8080/transacoes', JSON.stringify(data), {
+        headers: { 'Content-Type': 'application/json' },
+    });
+    
+    check(res, { 'status was 200': (r) => r.status == 201 });
+    
     sleep(1);
 }

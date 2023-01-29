@@ -4,6 +4,9 @@ _API Autorizador VR_.
 
 Ou seja, é uma API rest que disponibiliza alguns recursos para cadastro de cartões e autorização de transações.
 
+**Adicional**
+- Execução de stress-test utilizando K6 
+
 ## Iniciando...
 
 - `git clone https://github.com/junioroliveira1662/ms-mini-autorizador.git`
@@ -13,6 +16,8 @@ Agora você poderá executar os vários comandos abaixo.
 
 ## Pré-requisitos
 
+- Instalar o K6 para executar o stress-test da aplicação. `https://k6.io/docs/get-started/installation/`
+
 - `mvn --version`<br>
   você deverá ver a indicação da versão do Maven instalada e
   a versão do JDK, dentre outras. Observe que o JDK é obrigatório, assim como
@@ -21,7 +26,7 @@ Agora você poderá executar os vários comandos abaixo.
 | Programas | Versão |
 |-----------|:------:|
 | Java      |   11   |
-| Maven     | 3.8.6  |
+| Maven     | 3.8.6  | 
 
 ## Limpar, compilar, executar testes de unidade
 
@@ -82,4 +87,11 @@ Agora você poderá executar os vários comandos abaixo.
   diferente use `java -jar -Dserver.port=9876 target/api.jar`, por exemplo. Requisições podem ser
   submetidas conforme abaixo:
     - Abra o endereço _http://localhost:8080_ no seu navegador para visualizar a documentação da API
-      
+
+## Executando o stress-test com K6
+
+- Executar o comando para iniciar a api `mvn spring-boot:run`
+- Acessar a pasta dos scripts do K6, através do caminho `/src/test/stress-test`
+- Dentro da pastas dos arquivos do K6, abra o terminal e digite o seguinte comando `k6 run k6-script-consulta-saldo.js`, para realizar o stress-test no método de consultar saldo.
+- Dentro da pastas dos arquivos do K6, abra o terminal e digite o seguinte comando `k6 run k6-script-cadastrar-cartao.js`, para realizar o stress-test no método de cadastrar cartão.
+- - Dentro da pastas dos arquivos do K6, abra o terminal e digite o seguinte comando `k6 run k6-script-realizar-transacao.js`, para realizar o stress-test no método de realizar transação.
